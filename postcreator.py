@@ -20,21 +20,22 @@ def generate_post_stream(instruction, example, background, word_count, engine, c
                   Please write a social media post with a word count limit of approximately {word_count} words."""
     
     st.session_state.messages = ({"role": "assistant", "content": prompt})
-    
-    stream = client.chat.completions.create(
-        model=engine,
-        messages=[st.session_state.messages],
-        stream=True,
-    )
-    
-    text_chunks = []
-    for chunk in stream:
-        if chunk.choices[0].delta.content is not None:
-            with container:
-                text_chunks.append(chunk.choices[0].delta.content)            
-                st.write(''.join(text_chunks))
-    session['ai_report_text'] = ''.join(text_chunks)  # Store the text
-
+    try:
+        stream = client.chat.completions.create(
+            model=engine,
+            messages=[st.session_state.messages],
+            stream=True,
+        )
+        
+        text_chunks = []
+        for chunk in stream:
+            if chunk.choices[0].delta.content is not None:
+                with container:
+                    text_chunks.append(chunk.choices[0].delta.content)            
+                    st.write(''.join(text_chunks))
+        session['ai_report_text'] = ''.join(text_chunks)  # Store the text
+    except:
+        return "An error occurred. Probably Ivan needs to top-up his OpenAI credits."
     
     return stream
 
