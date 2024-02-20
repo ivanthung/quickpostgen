@@ -5,7 +5,6 @@ import toml
 # Load your API key (same as before)
 client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 session = st.session_state
-passwords = toml.load('passwords.toml')
 default_instructions = "Create a post that we can use for LinkedIn for communications purposes."
 
 if 'ai_report_text' not in session:
