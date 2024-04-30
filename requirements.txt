@@ -1,2 +1,6 @@
 openai
 streamlit
+python-pptx
+firebase_admin
+google-cloud-storage
+streamlit-float
